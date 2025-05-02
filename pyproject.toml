@@ -1,0 +1,38 @@
+[project]
+name = "rag-qa"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain>=0.3.24",
+    "langchain-community>=0.3.23",
+    "nltk>=3.9.1",
+    "pinecone>=6.0.2",
+    "pre-commit>=4.2.0",
+    "pypdf>=5.4.0",
+    "python-dotenv>=1.1.0",
+    "sentence-transformers>=4.1.0",
+    "tiktoken>=0.9.0",
+    "tqdm>=4.67.1",
+]
+
+# Flake8 configuration disabled in favor of using ruff
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = ["E203"]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.isort]
+known-first-party = ["rag_qa"]

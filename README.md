@@ -1,13 +1,13 @@
 # RAG-Based Document Question Answering System
 
-This repository implements a Retrieval-Augmented Generation (RAG) system for accurate document querying. The system utilizes OpenAI embeddings, Pinecone vector database, and the LangChain framework to provide precise answers to questions based on document content.
+This repository implements a Retrieval-Augmented Generation (RAG) system for accurate document querying. The system utilizes HuggingFaceBgeEmbeddings, Pinecone vector database, and the LangChain framework to provide precise answers to questions based on document content.
 
 ## Project Overview
 
 The Document QA system combines vector embeddings and large language models to enable accurate question answering about document contents. The system follows these key steps:
 
 1. **Document Processing** : PDF documents are loaded and split into manageable chunks
-2. **Vector Embedding** : Document chunks are converted to vector embeddings and stored in Pinecone
+2. **Vector Embedding** : Document chunks are converted to vector embeddings using HuggingFaceBgeEmbeddings and stored in Pinecone
 3. **Retrieval** : Relevant document chunks are retrieved based on query similarity
 4. **Generation** : An LLM generates precise answers based on the retrieved context
 
@@ -15,7 +15,7 @@ The Document QA system combines vector embeddings and large language models to e
 
 * PDF document loading and processing
 * Intelligent chunk size management with token counting
-* Semantic search using OpenAI embeddings
+* Semantic search using HuggingFaceBgeEmbeddings
 * Vector storage with Pinecone
 * Context-aware prompting for accurate answers
 * Source attribution for transparency
@@ -23,7 +23,7 @@ The Document QA system combines vector embeddings and large language models to e
 ## Requirements
 
 * Python 3.11+
-* OpenAI API key
+* HuggingFace API key (if required)
 * Pinecone API key and environment
 
 ## Installation
@@ -44,7 +44,7 @@ The Document QA system combines vector embeddings and large language models to e
    ```
 4. Create a `.env` file in the project root with your API keys:
    ```
-   OPENAI_API_KEY=your_openai_api_key
+   HUGGINGFACE_API_KEY=your_huggingface_api_key
    PINECONE_API_KEY=your_pinecone_api_key
    PINECONE_ENVIRONMENT=your_pinecone_environment
    ```
@@ -59,6 +59,7 @@ Place your PDF documents in the `documents` folder. The system will process all 
 
 ```python
 from rag_qa import DocumentProcessor, VectorStore
+from langchain.embeddings import HuggingFaceBgeEmbeddings
 
 # Initialize document processor
 processor = DocumentProcessor(chunk_size=1000, chunk_overlap=100)
@@ -70,8 +71,11 @@ document_chunks = processor.split_documents(documents)
 # Initialize vector store
 vector_store = VectorStore(index_name="my-documents")
 
+# Initialize HuggingFace embeddings
+embeddings = HuggingFaceBgeEmbeddings()
+
 # Store embeddings
-vectorstore = vector_store.store_embeddings(document_chunks)
+vectorstore = vector_store.store_embeddings(document_chunks, embeddings=embeddings)
 ```
 
 ### 3. Query Your Documents
